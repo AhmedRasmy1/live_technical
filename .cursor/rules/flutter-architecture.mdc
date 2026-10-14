@@ -1,0 +1,77 @@
+---
+description: Flutter feature-first Clean Architecture, Cubit, injectable, Result pattern, and strict Design System / responsive UI rules
+alwaysApply: true
+---
+
+# Flutter Architecture (strict — do not invent alternatives)
+
+Never use a different structure, state-management library, networking style, or DI style.
+If the project is empty, scaffold core first, then build ONLY the feature requested (plus any missing core file).
+
+## 1. Feature layout
+```
+lib/features/<feature>/
+  domain/{entities,repo,usecases}
+  data/{models,data_sources,data_sources_impl,repo_impl}
+  presentation/{views,viewmodels/<cubit_name>,widgets}
+```
+Generation order: entities -> repo (abstract) -> usecases -> models -> data_sources (abstract) -> data_sources_impl -> repo_impl -> viewmodels (cubit + `part` state) -> widgets then views -> Retrofit endpoint on `ApiService` (if REST) -> `dart run build_runner build --delete-conflicting-outputs`.
+Relative imports: cubit uses `../../../domain/...` and `../../../../../core/...`; data_sources_impl, repo_impl, usecases, repo use `../../../../core/...`.
+
+## 2. Result / errors
+- `core/common/api_result.dart`: `Result<T>`, `Success<T>(data)`, `Fail<T>(exception)`.
+- `core/common/custom_exception.dart`: `ServerError`, `DioHttpException`, `NoInternetError`, `FirebaseAuthError`.
+- `core/api/api_extentions.dart` (keep spelling): `executeApi<T>`.
+- `core/utils/extract_error_message.dart`: `extractErrorMessage(Exception?)`.
+- EVERY repository and data-source method returns `Future<Result<T>>`. Never return raw models, raw Firebase users, void, or throw across boundaries.
+
+## 3. REST
+Dio + Retrofit only (no `http` package). Endpoints live on `ApiService` in `core/api/api_manager/api_manager.dart`; paths in `ApiConstants`. REST data-source impl is `@Injectable(as: X)` and wraps calls in `executeApi(() async { final r = await apiService.x(...); return r.toEntity(); })`. Repo impl is `@Injectable(as: X)` and ONLY delegates (no mapping, no try/catch).
+
+## 4. Firebase Auth
+Data source calls `FirebaseAuth.instance` directly (not ApiService/executeApi); catches `FirebaseAuthException` -> `Fail(FirebaseAuthError(e.message ?? e.code))`, `Exception` -> `Fail(e)`. On cubit success cache token+email with `CacheService.setData` and `CacheConstants`. Firebase init only in `main`.
+
+## 5. Models / entities / use cases
+- Entities: pure Dart (no Flutter/Dio/Firebase).
+- Models: `@JsonSerializable()`, `part '<file>.g.dart'`, `fromJson`/`toJson`, and `toEntity()` (never skip).
+- Use cases: `@injectable`, method named after the action, same signature as repo/data source. Cubits depend ONLY on use cases.
+
+## 6. Cubit
+Cubit only (no Bloc events, Provider, Riverpod, GetX, setState for feature state). State is `part of` the cubit file: `@immutable sealed class` with exactly Initial, Loading, Success(entity), Failure(`final String error`). Use `switch (result)` on `Success<T>()` / `Fail<T>()`; failure = `extractErrorMessage(result.exception)`. No try/catch in cubit, no raw exception / `toString()` / hardcoded 'Error'.
+
+## 7. DI
+Single `getIt` from `lib/core/di/di.dart` (never a second GetIt, never `GetIt.instance` directly). Cubits/use cases `@injectable`; impls `@Injectable(as: ...)`; Dio `@module` + `@lazySingleton`; `ApiService` `@injectable @singleton @RestApi @FactoryMethod()`. No manual registration in `main`.
+In screens: `late XCubit cubit; initState() { cubit = getIt.get<XCubit>(); super.initState(); }` and `BlocConsumer(bloc: cubit)`. No `BlocProvider(create: ...)`.
+After changing any injectable, `@JsonSerializable`, or Retrofit method, run `dart run build_runner build --delete-conflicting-outputs`.
+
+## 8. Cache and startup
+Cache only via `core/utils/cashed_data_shared_preferences.dart` (`CacheService`, `CacheConstants`; keep spelling). Never call `SharedPreferences.getInstance()` elsewhere. New keys go on `CacheConstants`.
+`main` order: `ensureInitialized` -> `Bloc.observer = MyBlocObserver()` -> `Firebase.initializeApp` (if used) -> `CacheService.cacheInitialization()` -> `configureDependencies()` -> `runApp`.
+
+## 9. Packages
+dependencies: dio, retrofit, json_annotation, pretty_dio_logger, get_it, injectable, flutter_bloc, bloc, meta, shared_preferences (+ firebase_core, firebase_auth for Firebase features). dev: build_runner, retrofit_generator, json_serializable, injectable_generator. `*.g.dart` excluded in analysis_options.yaml.
+
+## 10. Hard rules
+- No business logic in widgets.
+- Presentation never imports data sources, models, Dio, or Retrofit.
+- Domain never imports Flutter, Dio, Firebase, or data models.
+- No try/catch in cubits.
+- Do not rename `api_extentions.dart` or `cashed_data_shared_preferences.dart`.
+- When a feature is named, create only that feature plus missing core files.
+
+# UI rules (STRICT)
+
+## A. Responsive design (zero hardcoding)
+- EVERY screen/widget must be fully responsive. NEVER use fixed hardcoded width/height that can overflow on other screen sizes.
+- Use `context.screenWidth` / `context.screenHeight` (`core/extensions/media_query_helper.dart`) or `Expanded`, `Flexible`, `LayoutBuilder`, `SafeArea`. Make scrollable content scrollable (e.g. `SingleChildScrollView`/`ListView`) so keyboards and small screens never overflow.
+
+## B. Design system enforcement
+- FORBIDDEN to hardcode colors, text styles, fonts, or padding/margin/radius/icon sizes in UI.
+- Use ONLY `lib/core/resources/`: `ColorManager`, `AppPadding` (`AppPadding.p16`), `AppConstants`, `FontConstants` (`FontConstants.fontFamily`), style helpers (`getRegularStyle(...)`, etc.). If a needed value is missing, ADD it to `core/resources/` first, then use it.
+
+## C. Reusability / DRY
+- Any UI element used more than once becomes a standalone stateless widget.
+- Feature-specific: `features/<feature>/presentation/widgets/`. Globally shared: `core/widgets/`.
+
+## D. Layer integrity
+- Never break Domain/Data/Presentation boundaries for UI speed. UI contains no business logic or data fetching; it only renders cubit state and calls cubit methods.

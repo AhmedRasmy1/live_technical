@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501169246039",
+    "project_id": "live-technical-assees",
+    "storage_bucket": "live-technical-assees.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501169246039:android:0a31cfc4061a4fbd8ff812",
+        "android_client_info": {
+          "package_name": "com.example.live_technical"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBomHig4fUYohmXHN6-Y3Zjb4zNUaC7TEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
