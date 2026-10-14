@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
@@ -25,14 +26,17 @@ class DepartmentChips extends StatelessWidget {
       children: [
         for (final department in departments)
           Chip(
-            backgroundColor: ColorManager.fieldFill,
+            backgroundColor: context.colors.fieldFill,
             side: BorderSide.none,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppConstants.borderRadius),
             ),
             label: Text(
               department,
-              style: getRegularStyle(fontSize: AppConstants.captionSize),
+              style: getRegularStyle(
+                fontSize: AppConstants.captionSize,
+                color: context.colors.textPrimary,
+              ),
             ),
             deleteIcon: const Icon(
               Icons.remove_circle,

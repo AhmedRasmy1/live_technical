@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 import '../../../../core/widgets/responsive_field_wrap.dart';
 
@@ -34,14 +34,14 @@ class BoardInfoFields extends StatelessWidget {
               label: 'Board Name',
               controller: boardNameController,
               validator: boardNameValidator,
-              fillColor: ColorManager.fieldFill,
+              fillColor: context.colors.fieldFill,
             ),
             AppTextFormField(
               label: 'اسم لوحة',
               hint: 'اكتب هنا',
               controller: boardNameArController,
               textDirection: TextDirection.rtl,
-              fillColor: ColorManager.fieldFill,
+              fillColor: context.colors.fieldFill,
             ),
           ],
         ),
@@ -53,7 +53,7 @@ class BoardInfoFields extends StatelessWidget {
           minLines: AppConstants.descriptionMinLines,
           maxLines: AppConstants.descriptionMaxLines,
           maxLength: AppConstants.descriptionMaxLength,
-          fillColor: ColorManager.fieldFill,
+          fillColor: context.colors.fieldFill,
         ),
         const SizedBox(height: AppConstants.fieldSpacing),
         AppTextFormField(
@@ -64,7 +64,7 @@ class BoardInfoFields extends StatelessWidget {
           maxLines: AppConstants.descriptionMaxLines,
           maxLength: AppConstants.descriptionMaxLength,
           textDirection: TextDirection.rtl,
-          fillColor: ColorManager.fieldFill,
+          fillColor: context.colors.fieldFill,
         ),
       ],
     );

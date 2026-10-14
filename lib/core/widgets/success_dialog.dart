@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
 import '../resources/color_manager.dart';
@@ -45,7 +46,7 @@ class _SuccessDialogState extends State<SuccessDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: ColorManager.white,
+      backgroundColor: context.colors.surface,
       insetPadding: const EdgeInsets.all(AppPadding.p16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
@@ -76,7 +77,7 @@ class _SuccessDialogState extends State<SuccessDialog> {
                 textAlign: TextAlign.center,
                 style: getRegularStyle(
                   fontSize: AppConstants.captionSize,
-                  color: ColorManager.textGrey,
+                  color: context.colors.textSecondary,
                 ),
               ),
             ],

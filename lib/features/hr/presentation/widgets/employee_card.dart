@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/widgets/app_action_button.dart';
 import '../../../../core/widgets/app_avatar.dart';
@@ -23,7 +23,7 @@ class EmployeeCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppPadding.p12),
       decoration: BoxDecoration(
-        color: ColorManager.white,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       child: IntrinsicHeight(
@@ -46,7 +46,7 @@ class EmployeeCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: getMediumStyle(
                       fontSize: AppConstants.bodySize,
-                      color: ColorManager.black,
+                      color: context.colors.textPrimary,
                     ),
                   ),
                   Text(
@@ -55,7 +55,7 @@ class EmployeeCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: getRegularStyle(
                       fontSize: AppConstants.captionSize,
-                      color: ColorManager.textGrey,
+                      color: context.colors.textSecondary,
                     ),
                   ),
                   Text(
@@ -64,7 +64,7 @@ class EmployeeCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: getRegularStyle(
                       fontSize: AppConstants.captionSize,
-                      color: ColorManager.textGrey,
+                      color: context.colors.textSecondary,
                     ),
                   ),
                 ],

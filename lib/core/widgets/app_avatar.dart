@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
-import '../resources/color_manager.dart';
 
 /// Circular avatar showing [imageUrl], or a person icon when there is none.
 class AppAvatar extends StatelessWidget {
@@ -20,14 +20,14 @@ class AppAvatar extends StatelessWidget {
     final hasImage = url != null && url.isNotEmpty;
     return CircleAvatar(
       radius: radius,
-      backgroundColor: ColorManager.lightGrey,
+      backgroundColor: context.colors.lightGrey,
       backgroundImage: hasImage ? NetworkImage(url) : null,
       child: hasImage
           ? null
-          : const Icon(
+          : Icon(
               Icons.person,
               size: AppConstants.iconSize,
-              color: ColorManager.grey,
+              color: context.colors.grey,
             ),
     );
   }

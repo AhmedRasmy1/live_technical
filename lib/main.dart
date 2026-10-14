@@ -1,9 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/di/di.dart';
-import 'core/resources/color_manager.dart';
+import 'core/theme/theme_cubit/theme_cubit.dart';
+import 'core/theme/theme_manager.dart';
 import 'core/utils/cashed_data_shared_preferences.dart';
 import 'core/utils/my_bloc_observer.dart';
 import 'features/home/presentation/views/home_view.dart';
@@ -23,13 +24,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.primary),
-        scaffoldBackgroundColor: ColorManager.background,
-      ),
-      home: const HomeView(),
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      bloc: getIt.get<ThemeCubit>(),
+      builder: (context, state) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeManager.light,
+          darkTheme: ThemeManager.dark,
+          themeMode: state.themeMode,
+          home: const HomeView(),
+        );
+      },
     );
   }
 }

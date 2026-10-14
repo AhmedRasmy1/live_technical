@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
 import '../resources/color_manager.dart';
@@ -7,9 +8,11 @@ import '../resources/styles_manager.dart';
 
 /// Shared decoration: filled, no heavy border, red border on error.
 /// Pass [hint] for text fields. Dropdowns draw their own hint widget instead.
-InputDecoration appInputDecoration({
+/// [fillColor] defaults to the themed surface color.
+InputDecoration appInputDecoration(
+  BuildContext context, {
   String? hint,
-  Color fillColor = ColorManager.white,
+  Color? fillColor,
 }) {
   OutlineInputBorder border(Color? color) => OutlineInputBorder(
     borderRadius: BorderRadius.circular(AppConstants.borderRadius),
@@ -20,11 +23,11 @@ InputDecoration appInputDecoration({
 
   return InputDecoration(
     filled: true,
-    fillColor: fillColor,
+    fillColor: fillColor ?? context.colors.surface,
     hintText: hint,
     hintStyle: getRegularStyle(
       fontSize: AppConstants.captionSize,
-      color: ColorManager.textGrey,
+      color: context.colors.textSecondary,
     ),
     errorStyle: getRegularStyle(
       fontSize: AppConstants.captionSize,
@@ -32,7 +35,7 @@ InputDecoration appInputDecoration({
     ),
     counterStyle: getRegularStyle(
       fontSize: AppConstants.captionSize,
-      color: ColorManager.textGrey,
+      color: context.colors.textSecondary,
     ),
     contentPadding: const EdgeInsets.symmetric(
       horizontal: AppPadding.p16,

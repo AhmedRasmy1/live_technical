@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
@@ -26,7 +27,12 @@ class DepartmentMultiSelect extends StatelessWidget {
   final String label;
   final String hint;
 
-  Widget _item(String text, bool checked, VoidCallback onTap) {
+  Widget _item(
+    BuildContext context,
+    String text,
+    bool checked,
+    VoidCallback onTap,
+  ) {
     return MenuItemButton(
       closeOnActivate: false,
       onPressed: onTap,
@@ -41,7 +47,10 @@ class DepartmentMultiSelect extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: getRegularStyle(fontSize: AppConstants.captionSize),
+        style: getRegularStyle(
+          fontSize: AppConstants.captionSize,
+          color: context.colors.textPrimary,
+        ),
       ),
     );
   }
@@ -57,13 +66,13 @@ class DepartmentMultiSelect extends StatelessWidget {
           label,
           style: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
         ),
         const SizedBox(height: AppPadding.p4),
         MenuAnchor(
           style: MenuStyle(
-            backgroundColor: const WidgetStatePropertyAll(ColorManager.white),
+            backgroundColor: WidgetStatePropertyAll(context.colors.surface),
             minimumSize: const WidgetStatePropertyAll(
               Size(AppConstants.menuMinWidth, 0),
             ),
@@ -74,9 +83,14 @@ class DepartmentMultiSelect extends StatelessWidget {
             ),
           ),
           menuChildren: [
-            _item(BoardOptions.allLabel, allSelected, onToggleAll),
+            _item(context, BoardOptions.allLabel, allSelected, onToggleAll),
             for (final option in options)
-              _item(option, selected.contains(option), () => onToggle(option)),
+              _item(
+                context,
+                option,
+                selected.contains(option),
+                () => onToggle(option),
+              ),
           ],
           builder: (context, controller, child) => InkWell(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius),
@@ -86,7 +100,7 @@ class DepartmentMultiSelect extends StatelessWidget {
               height: AppConstants.buttonHeight,
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
               decoration: BoxDecoration(
-                color: ColorManager.fieldFill,
+                color: context.colors.fieldFill,
                 borderRadius: BorderRadius.circular(AppConstants.borderRadius),
               ),
               child: Row(
@@ -98,14 +112,14 @@ class DepartmentMultiSelect extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: getRegularStyle(
                         fontSize: AppConstants.captionSize,
-                        color: ColorManager.textGrey,
+                        color: context.colors.textSecondary,
                       ),
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.keyboard_arrow_down,
                     size: AppConstants.iconSize,
-                    color: ColorManager.textGrey,
+                    color: context.colors.textSecondary,
                   ),
                 ],
               ),

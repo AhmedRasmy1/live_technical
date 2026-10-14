@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/media_query_helper.dart';
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widgets/app_action_button.dart';
 import '../../../../core/widgets/app_search_field.dart';
 
@@ -33,8 +33,8 @@ class EmployeeActionBar extends StatelessWidget {
           icon: Icons.tune,
           height: AppConstants.buttonHeight,
           showLabel: showLabels,
-          backgroundColor: ColorManager.white,
-          foregroundColor: ColorManager.textGrey,
+          backgroundColor: context.colors.surface,
+          foregroundColor: context.colors.textSecondary,
           elevated: true,
           onPressed: onFilterPressed,
         ),

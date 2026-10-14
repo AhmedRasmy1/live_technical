@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/di.dart';
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
@@ -103,7 +104,7 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: BlocConsumer<AddEmployeeCubit, AddEmployeeState>(
           bloc: addEmployeeCubit,

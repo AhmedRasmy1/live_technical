@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
@@ -68,7 +69,7 @@ class _FilterPanelWidgetState extends State<FilterPanelWidget> {
     return Container(
       padding: const EdgeInsets.all(AppPadding.p16),
       decoration: BoxDecoration(
-        color: ColorManager.white,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       child: Column(
@@ -77,9 +78,9 @@ class _FilterPanelWidgetState extends State<FilterPanelWidget> {
         children: [
           Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: AppConstants.iconSize / 2 + AppPadding.p4,
-                backgroundColor: ColorManager.textGrey,
+                backgroundColor: context.colors.textSecondary,
                 child: Icon(
                   Icons.tune,
                   size: AppConstants.smallIconSize,
@@ -122,7 +123,7 @@ class _FilterPanelWidgetState extends State<FilterPanelWidget> {
                 child: AppActionButton(
                   label: 'Reset',
                   height: AppConstants.buttonHeight,
-                  backgroundColor: ColorManager.background,
+                  backgroundColor: context.colors.background,
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppPadding.p24,
                   ),

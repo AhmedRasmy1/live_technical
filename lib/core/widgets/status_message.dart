@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
-import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 import 'app_action_button.dart';
 
@@ -26,7 +26,7 @@ class StatusMessage extends StatelessWidget {
               textAlign: TextAlign.center,
               style: getRegularStyle(
                 fontSize: AppConstants.bodySize,
-                color: ColorManager.textGrey,
+                color: context.colors.textSecondary,
               ),
             ),
             if (onRetry != null) ...[

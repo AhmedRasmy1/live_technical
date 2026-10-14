@@ -1,6 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CacheConstants {}
+class CacheConstants {
+  /// 'light' or 'dark'.
+  static const String themeMode = 'themeMode';
+}
 
 class CacheService {
   static late SharedPreferences _sharedPreferences;

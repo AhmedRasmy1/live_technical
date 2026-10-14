@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widgets/app_search_field.dart';
 import '../../../../core/widgets/filter_dropdown.dart';
 import 'board_options.dart';
@@ -28,7 +28,7 @@ class EmployeePickerFilters extends StatelessWidget {
   Widget build(BuildContext context) {
     final search = AppSearchField(
       onChanged: onSearchChanged,
-      fillColor: ColorManager.fieldFill,
+      fillColor: context.colors.fieldFill,
     );
     final dropdown = FilterDropdown(
       hint: 'Department',

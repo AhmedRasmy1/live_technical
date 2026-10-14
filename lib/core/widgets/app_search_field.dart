@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
-import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 
 /// Rounded search field with a search icon.
@@ -11,12 +11,12 @@ class AppSearchField extends StatelessWidget {
     super.key,
     this.onChanged,
     this.hint = 'Search',
-    this.fillColor = ColorManager.white,
+    this.fillColor,
   });
 
   final ValueChanged<String>? onChanged;
   final String hint;
-  final Color fillColor;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class AppSearchField extends StatelessWidget {
       height: AppConstants.buttonHeight,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: fillColor,
+        color: fillColor ?? context.colors.surface,
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       child: TextField(
@@ -39,12 +39,12 @@ class AppSearchField extends StatelessWidget {
           hintText: hint,
           hintStyle: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.textGrey,
+            color: context.colors.textSecondary,
           ),
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.search,
             size: AppConstants.iconSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: AppPadding.p16,

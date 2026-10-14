@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
-import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 import 'app_input_decoration.dart';
 
@@ -15,7 +15,7 @@ class AppDropdownFormField extends StatelessWidget {
     required this.onChanged,
     this.hint = 'Select',
     this.validator,
-    this.fillColor = ColorManager.white,
+    this.fillColor,
   });
 
   final String label;
@@ -23,7 +23,7 @@ class AppDropdownFormField extends StatelessWidget {
   final ValueChanged<String?> onChanged;
   final String hint;
   final FormFieldValidator<String>? validator;
-  final Color fillColor;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class AppDropdownFormField extends StatelessWidget {
           label,
           style: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
         ),
         const SizedBox(height: AppPadding.p4),
@@ -43,22 +43,22 @@ class AppDropdownFormField extends StatelessWidget {
           validator: validator,
           onChanged: onChanged,
           borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-          dropdownColor: ColorManager.white,
-          icon: const Icon(
+          dropdownColor: context.colors.surface,
+          icon: Icon(
             Icons.keyboard_arrow_down,
             size: AppConstants.iconSize,
-            color: ColorManager.textGrey,
+            color: context.colors.textSecondary,
           ),
           style: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
-          decoration: appInputDecoration(fillColor: fillColor),
+          decoration: appInputDecoration(context, fillColor: fillColor),
           hint: Text(
             hint,
             style: getRegularStyle(
               fontSize: AppConstants.captionSize,
-              color: ColorManager.textGrey,
+              color: context.colors.textSecondary,
             ),
           ),
           items: [

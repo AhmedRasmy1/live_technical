@@ -42,6 +42,7 @@ import '../../features/task_management/presentation/viewmodels/create_board_cubi
     as _i470;
 import '../api/api_manager/api_manager.dart' as _i680;
 import '../api/dio_module.dart' as _i784;
+import '../theme/theme_cubit/theme_cubit.dart' as _i613;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -52,6 +53,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
+    gh.lazySingleton<_i613.ThemeCubit>(() => _i613.ThemeCubit());
     gh.factory<_i47.EmployeeDataSource>(() => _i825.EmployeeDataSourceImpl());
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
     gh.factory<_i755.BoardDataSource>(() => _i89.BoardDataSourceImpl());

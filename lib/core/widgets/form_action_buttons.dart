@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
-import '../resources/color_manager.dart';
 import 'app_action_button.dart';
 
 /// Discard (light grey, left) and a primary action (dark grey, right).
@@ -31,7 +31,7 @@ class FormActionButtons extends StatelessWidget {
           child: AppActionButton(
             label: discardLabel,
             height: AppConstants.buttonHeight,
-            backgroundColor: ColorManager.lightGrey,
+            backgroundColor: context.colors.lightGrey,
             padding: padding,
             onPressed: onDiscard,
           ),

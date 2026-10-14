@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
@@ -24,7 +25,7 @@ class SelectableEmployeeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(AppConstants.borderRadius);
     return Material(
-      color: ColorManager.fieldFill,
+      color: context.colors.fieldFill,
       borderRadius: radius,
       child: InkWell(
         borderRadius: radius,
@@ -44,7 +45,10 @@ class SelectableEmployeeCard extends StatelessWidget {
                       employee.fullName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: getMediumStyle(fontSize: AppConstants.bodySize),
+                      style: getMediumStyle(
+                        fontSize: AppConstants.bodySize,
+                        color: context.colors.textPrimary,
+                      ),
                     ),
                     Text(
                       employee.department,
@@ -52,7 +56,7 @@ class SelectableEmployeeCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: getRegularStyle(
                         fontSize: AppConstants.captionSize,
-                        color: ColorManager.textGrey,
+                        color: context.colors.textSecondary,
                       ),
                     ),
                     Text(
@@ -61,7 +65,7 @@ class SelectableEmployeeCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: getRegularStyle(
                         fontSize: AppConstants.captionSize,
-                        color: ColorManager.textGrey,
+                        color: context.colors.textSecondary,
                       ),
                     ),
                   ],
@@ -72,7 +76,7 @@ class SelectableEmployeeCard extends StatelessWidget {
                 onChanged: (_) => onChanged(),
                 activeColor: ColorManager.accent,
                 checkColor: ColorManager.white,
-                side: const BorderSide(color: ColorManager.grey),
+                side: BorderSide(color: context.colors.grey),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                     AppConstants.checkboxRadius,

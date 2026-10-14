@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
 import '../resources/color_manager.dart';
@@ -35,7 +36,7 @@ class ConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: ColorManager.white,
+      backgroundColor: context.colors.surface,
       insetPadding: const EdgeInsets.all(AppPadding.p16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
@@ -62,7 +63,7 @@ class ConfirmationDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: getRegularStyle(
                   fontSize: AppConstants.captionSize,
-                  color: ColorManager.textGrey,
+                  color: context.colors.textSecondary,
                 ),
               ),
               const SizedBox(height: AppPadding.p24),
@@ -72,7 +73,7 @@ class ConfirmationDialog extends StatelessWidget {
                     child: AppActionButton(
                       label: cancelLabel,
                       height: AppConstants.buttonHeight,
-                      backgroundColor: ColorManager.lightGrey,
+                      backgroundColor: context.colors.lightGrey,
                       onPressed: () => Navigator.of(context).pop(false),
                     ),
                   ),

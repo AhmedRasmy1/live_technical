@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
 import '../resources/color_manager.dart';
@@ -12,8 +13,8 @@ class AppActionButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.icon,
-    this.backgroundColor = ColorManager.buttonGrey,
-    this.foregroundColor = ColorManager.black,
+    this.backgroundColor,
+    this.foregroundColor,
     this.fontSize = AppConstants.bodySize,
     this.iconSize = AppConstants.iconSize,
     this.padding = const EdgeInsets.symmetric(
@@ -28,8 +29,12 @@ class AppActionButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final IconData? icon;
-  final Color backgroundColor;
-  final Color foregroundColor;
+
+  /// Defaults to the themed button grey.
+  final Color? backgroundColor;
+
+  /// Defaults to the themed primary text color.
+  final Color? foregroundColor;
   final double fontSize;
   final double iconSize;
   final EdgeInsetsGeometry padding;
@@ -42,12 +47,14 @@ class AppActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(AppConstants.borderRadius);
+    final background = backgroundColor ?? context.colors.buttonGrey;
+    final foreground = foregroundColor ?? context.colors.textPrimary;
     final showText = showLabel || icon == null;
 
     Widget button = Tooltip(
       message: showText ? '' : label,
       child: Material(
-        color: backgroundColor,
+        color: background,
         elevation: elevated ? AppConstants.buttonElevation : 0,
         shadowColor: ColorManager.shadow,
         borderRadius: radius,
@@ -63,7 +70,7 @@ class AppActionButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (icon != null)
-                    Icon(icon, size: iconSize, color: foregroundColor),
+                    Icon(icon, size: iconSize, color: foreground),
                   if (icon != null && showText)
                     const SizedBox(width: AppPadding.p8),
                   if (showText)
@@ -74,7 +81,7 @@ class AppActionButton extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: getRegularStyle(
                           fontSize: fontSize,
-                          color: foregroundColor,
+                          color: foreground,
                         ),
                       ),
                     ),

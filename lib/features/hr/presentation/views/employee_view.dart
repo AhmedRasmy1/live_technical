@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/di.dart';
+import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widgets/breadcrumb_header.dart';
 import '../../../../core/widgets/status_message.dart';
+import '../../../../core/widgets/theme_toggle_button.dart';
 import '../viewmodels/employee_list_cubit/employee_list_cubit.dart';
 import '../widgets/employee_action_bar.dart';
 import '../widgets/employee_grid.dart';
@@ -52,7 +53,7 @@ class _EmployeeViewState extends State<EmployeeView> {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => Dialog(
-        backgroundColor: ColorManager.white,
+        backgroundColor: context.colors.surface,
         insetPadding: const EdgeInsets.all(AppPadding.p16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppConstants.borderRadius),
@@ -117,7 +118,7 @@ class _EmployeeViewState extends State<EmployeeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.background,
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -131,7 +132,14 @@ class _EmployeeViewState extends State<EmployeeView> {
                   const SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: AppPadding.p16),
-                      child: BreadcrumbHeader(items: ['HR', 'Employee']),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: BreadcrumbHeader(items: ['HR', 'Employee']),
+                          ),
+                          ThemeToggleButton(),
+                        ],
+                      ),
                     ),
                   ),
                   SliverToBoxAdapter(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
-import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 
 /// Breadcrumb such as "HR > Employees > Adding New Employee".
@@ -22,20 +22,20 @@ class BreadcrumbHeader extends StatelessWidget {
           style: isLast
               ? getBoldStyle(
                   fontSize: AppConstants.titleSize,
-                  color: ColorManager.black,
+                  color: context.colors.textPrimary,
                 )
               : getRegularStyle(
                   fontSize: AppConstants.titleSize,
-                  color: ColorManager.textGrey,
+                  color: context.colors.textSecondary,
                 ),
         ),
       );
       if (!isLast) {
         children.add(
-          const Icon(
+          Icon(
             Icons.chevron_right,
             size: AppConstants.iconSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
         );
       }

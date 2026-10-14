@@ -5,20 +5,23 @@ import 'package:live_technical/core/di/di.dart';
 import 'package:live_technical/core/resources/app_constants.dart';
 import 'package:live_technical/core/widgets/breadcrumb_header.dart';
 import 'package:live_technical/core/widgets/filter_dropdown.dart';
+import 'package:live_technical/core/widgets/theme_toggle_button.dart';
 import 'package:live_technical/features/hr/domain/entities/employee_entity.dart';
 import 'package:live_technical/features/hr/presentation/views/add_employee_view.dart';
 import 'package:live_technical/features/hr/presentation/views/employee_view.dart';
 import 'package:live_technical/features/hr/presentation/widgets/employee_card.dart';
 import 'package:live_technical/features/hr/presentation/widgets/filter_panel_widget.dart';
 
+import '../../../../core/theme/theme_test_support.dart';
 import '../../test_support.dart';
 
 void main() {
   late FakeEmployeeRepo repo;
 
-  setUp(() {
+  setUp(() async {
     repo = FakeEmployeeRepo(employees: sampleEmployees(12));
     registerHrDependencies(repo);
+    await registerThemeDependencies();
   });
 
   tearDown(() async => getIt.reset());
@@ -30,6 +33,19 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: EmployeeView()));
     await tester.pumpAndSettle();
   }
+
+  testWidgets('has a theme toggle next to the header and it switches', (
+    tester,
+  ) async {
+    await pumpView(tester, const Size(1200, 900));
+    expect(find.byType(ThemeToggleButton), findsOneWidget);
+    expect(find.byIcon(Icons.dark_mode_outlined), findsOneWidget);
+
+    await tester.tap(find.byType(ThemeToggleButton));
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(Icons.light_mode_outlined), findsOneWidget);
+  });
 
   testWidgets('renders header, search, buttons and fetched employees', (
     tester,

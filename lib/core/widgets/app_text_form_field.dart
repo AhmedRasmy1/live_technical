@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
-import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 import 'app_input_decoration.dart';
 
@@ -22,7 +22,7 @@ class AppTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.maxLength,
     this.textDirection,
-    this.fillColor = ColorManager.white,
+    this.fillColor,
   });
 
   final String label;
@@ -35,7 +35,7 @@ class AppTextFormField extends StatelessWidget {
   final int? maxLines;
   final int? maxLength;
   final TextDirection? textDirection;
-  final Color fillColor;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class AppTextFormField extends StatelessWidget {
           label,
           style: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
         ),
         const SizedBox(height: AppPadding.p4),
@@ -64,9 +64,13 @@ class AppTextFormField extends StatelessWidget {
           maxLength: maxLength,
           style: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
-          decoration: appInputDecoration(hint: hint, fillColor: fillColor),
+          decoration: appInputDecoration(
+            context,
+            hint: hint,
+            fillColor: fillColor,
+          ),
         ),
       ],
     );

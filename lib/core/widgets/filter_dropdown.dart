@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../extensions/theme_helper.dart';
 import '../resources/app_constants.dart';
 import '../resources/app_padding.dart';
-import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 
 /// Light-grey dropdown without underline.
@@ -27,7 +27,7 @@ class FilterDropdown extends StatelessWidget {
       height: AppConstants.buttonHeight,
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p16),
       decoration: BoxDecoration(
-        color: ColorManager.fieldFill,
+        color: context.colors.fieldFill,
         borderRadius: radius,
       ),
       child: DropdownButtonHideUnderline(
@@ -35,11 +35,11 @@ class FilterDropdown extends StatelessWidget {
           isExpanded: true,
           value: value,
           borderRadius: radius,
-          dropdownColor: ColorManager.white,
-          icon: const Icon(
+          dropdownColor: context.colors.surface,
+          icon: Icon(
             Icons.keyboard_arrow_down,
             size: AppConstants.iconSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
           hint: Text(
             hint,
@@ -47,12 +47,12 @@ class FilterDropdown extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: getRegularStyle(
               fontSize: AppConstants.captionSize,
-              color: ColorManager.textGrey,
+              color: context.colors.textSecondary,
             ),
           ),
           style: getRegularStyle(
             fontSize: AppConstants.captionSize,
-            color: ColorManager.black,
+            color: context.colors.textPrimary,
           ),
           items: [
             for (final item in items)
