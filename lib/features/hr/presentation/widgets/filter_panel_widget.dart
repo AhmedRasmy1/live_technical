@@ -5,7 +5,7 @@ import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/widgets/app_action_button.dart';
-import 'filter_dropdown.dart';
+import '../../../../core/widgets/filter_dropdown.dart';
 
 /// Reusable filter panel: title, two dropdowns, Reset / Apply.
 /// Only holds the local selection of the dropdowns (pure UI state).

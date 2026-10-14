@@ -26,6 +26,13 @@ class AppConstants {
   static const double avatarPickerRadius = 40;
   static const double avatarBadgeRadius = 10;
 
+  // Board form
+  static const int descriptionMaxLength = 500;
+  static const int descriptionMinLines = 3;
+  static const int descriptionMaxLines = 4;
+  static const double checkboxRadius = 4;
+  static const double menuMinWidth = 200;
+
   // Dialogs
   static const double dialogMaxWidth = 400;
   static const double dialogIconSize = 64;

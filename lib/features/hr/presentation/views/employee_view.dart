@@ -6,10 +6,10 @@ import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widgets/breadcrumb_header.dart';
+import '../../../../core/widgets/status_message.dart';
 import '../viewmodels/employee_list_cubit/employee_list_cubit.dart';
 import '../widgets/employee_action_bar.dart';
 import '../widgets/employee_grid.dart';
-import '../widgets/employee_list_message.dart';
 import '../widgets/filter_panel_widget.dart';
 import '../widgets/hr_options.dart';
 import 'add_employee_view.dart';
@@ -98,7 +98,7 @@ class _EmployeeViewState extends State<EmployeeView> {
       case EmployeeListFailure():
         return SliverFillRemaining(
           hasScrollBody: false,
-          child: EmployeeListMessage(
+          child: StatusMessage(
             message: state.error,
             onRetry: employeeListCubit.getEmployees,
           ),
@@ -107,7 +107,7 @@ class _EmployeeViewState extends State<EmployeeView> {
         if (state.employees.isEmpty) {
           return const SliverFillRemaining(
             hasScrollBody: false,
-            child: EmployeeListMessage(message: 'No employees found'),
+            child: StatusMessage(message: 'No employees found'),
           );
         }
         return EmployeeSliverGrid(employees: state.employees);

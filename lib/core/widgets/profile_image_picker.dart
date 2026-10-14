@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/color_manager.dart';
+import '../resources/app_constants.dart';
+import '../resources/color_manager.dart';
 
 /// Circular grey placeholder with an image icon and a camera badge.
 /// Image upload is not wired yet (imageUrl is optional).

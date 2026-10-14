@@ -6,7 +6,7 @@ import 'core/di/di.dart';
 import 'core/resources/color_manager.dart';
 import 'core/utils/cashed_data_shared_preferences.dart';
 import 'core/utils/my_bloc_observer.dart';
-import 'features/hr/presentation/views/employee_view.dart';
+import 'features/home/presentation/views/home_view.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.primary),
         scaffoldBackgroundColor: ColorManager.background,
       ),
-      home: const EmployeeView(),
+      home: const HomeView(),
     );
   }
 }

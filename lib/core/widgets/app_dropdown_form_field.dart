@@ -15,6 +15,7 @@ class AppDropdownFormField extends StatelessWidget {
     required this.onChanged,
     this.hint = 'Select',
     this.validator,
+    this.fillColor = ColorManager.white,
   });
 
   final String label;
@@ -22,6 +23,7 @@ class AppDropdownFormField extends StatelessWidget {
   final ValueChanged<String?> onChanged;
   final String hint;
   final FormFieldValidator<String>? validator;
+  final Color fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class AppDropdownFormField extends StatelessWidget {
             fontSize: AppConstants.captionSize,
             color: ColorManager.black,
           ),
-          decoration: appInputDecoration(),
+          decoration: appInputDecoration(fillColor: fillColor),
           hint: Text(
             hint,
             style: getRegularStyle(

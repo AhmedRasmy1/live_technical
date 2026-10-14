@@ -8,6 +8,7 @@ class ColorManager {
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFFB74D);
+  static const Color accent = Color(0xFFF2B600);
   static const Color background = Color(0xFFF5F5F5);
   static const Color fieldFill = Color(0xFFEFEFEF);
   static const Color lightGrey = Color(0xFFDEDEDE);

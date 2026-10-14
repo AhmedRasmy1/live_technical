@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
-import '../../../../core/resources/styles_manager.dart';
+import '../resources/app_constants.dart';
+import '../resources/app_padding.dart';
+import '../resources/color_manager.dart';
+import '../resources/styles_manager.dart';
 
 /// Light-grey dropdown without underline.
 class FilterDropdown extends StatelessWidget {

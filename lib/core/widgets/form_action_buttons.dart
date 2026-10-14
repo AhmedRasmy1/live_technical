@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
-import '../../../../core/widgets/app_action_button.dart';
+import '../resources/app_constants.dart';
+import '../resources/app_padding.dart';
+import '../resources/color_manager.dart';
+import 'app_action_button.dart';
 
-/// "Discard" (light grey) on the left and "Submit" (dark grey) on the right.
+/// Discard (light grey, left) and a primary action (dark grey, right).
 /// Buttons shrink instead of overflowing on narrow screens.
-class EmployeeFormActions extends StatelessWidget {
-  const EmployeeFormActions({
+class FormActionButtons extends StatelessWidget {
+  const FormActionButtons({
     super.key,
     required this.onDiscard,
     required this.onSubmit,
+    this.discardLabel = 'Discard',
+    this.submitLabel = 'Submit',
   });
 
   final VoidCallback onDiscard;
   final VoidCallback onSubmit;
+  final String discardLabel;
+  final String submitLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class EmployeeFormActions extends StatelessWidget {
       children: [
         Flexible(
           child: AppActionButton(
-            label: 'Discard',
+            label: discardLabel,
             height: AppConstants.buttonHeight,
             backgroundColor: ColorManager.lightGrey,
             padding: padding,
@@ -35,7 +39,7 @@ class EmployeeFormActions extends StatelessWidget {
         const SizedBox(width: AppPadding.p16),
         Flexible(
           child: AppActionButton(
-            label: 'Submit',
+            label: submitLabel,
             height: AppConstants.buttonHeight,
             padding: padding,
             onPressed: onSubmit,

@@ -25,6 +25,21 @@ import '../../features/hr/presentation/viewmodels/add_employee_cubit/add_employe
     as _i508;
 import '../../features/hr/presentation/viewmodels/employee_list_cubit/employee_list_cubit.dart'
     as _i538;
+import '../../features/task_management/data/data_sources/board_data_source.dart'
+    as _i755;
+import '../../features/task_management/data/data_sources_impl/board_data_source_impl.dart'
+    as _i89;
+import '../../features/task_management/data/repo_impl/board_repo_impl.dart'
+    as _i418;
+import '../../features/task_management/domain/repo/board_repo.dart' as _i365;
+import '../../features/task_management/domain/usecases/check_board_exists_use_case.dart'
+    as _i669;
+import '../../features/task_management/domain/usecases/create_board_use_case.dart'
+    as _i314;
+import '../../features/task_management/domain/usecases/get_board_employees_use_case.dart'
+    as _i328;
+import '../../features/task_management/presentation/viewmodels/create_board_cubit/create_board_cubit.dart'
+    as _i470;
 import '../api/api_manager/api_manager.dart' as _i680;
 import '../api/dio_module.dart' as _i784;
 
@@ -39,14 +54,34 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => dioModule.providerDio());
     gh.factory<_i47.EmployeeDataSource>(() => _i825.EmployeeDataSourceImpl());
     gh.factory<_i680.ApiService>(() => _i680.ApiService(gh<_i361.Dio>()));
+    gh.factory<_i755.BoardDataSource>(() => _i89.BoardDataSourceImpl());
+    gh.factory<_i365.BoardRepo>(
+      () => _i418.BoardRepoImpl(gh<_i755.BoardDataSource>()),
+    );
     gh.factory<_i278.EmployeeRepo>(
       () => _i562.EmployeeRepoImpl(gh<_i47.EmployeeDataSource>()),
+    );
+    gh.factory<_i669.CheckBoardExistsUseCase>(
+      () => _i669.CheckBoardExistsUseCase(gh<_i365.BoardRepo>()),
+    );
+    gh.factory<_i314.CreateBoardUseCase>(
+      () => _i314.CreateBoardUseCase(gh<_i365.BoardRepo>()),
+    );
+    gh.factory<_i328.GetBoardEmployeesUseCase>(
+      () => _i328.GetBoardEmployeesUseCase(gh<_i365.BoardRepo>()),
     );
     gh.factory<_i306.AddEmployeeUseCase>(
       () => _i306.AddEmployeeUseCase(gh<_i278.EmployeeRepo>()),
     );
     gh.factory<_i26.GetEmployeesUseCase>(
       () => _i26.GetEmployeesUseCase(gh<_i278.EmployeeRepo>()),
+    );
+    gh.factory<_i470.CreateBoardCubit>(
+      () => _i470.CreateBoardCubit(
+        gh<_i328.GetBoardEmployeesUseCase>(),
+        gh<_i669.CheckBoardExistsUseCase>(),
+        gh<_i314.CreateBoardUseCase>(),
+      ),
     );
     gh.factory<_i538.EmployeeListCubit>(
       () => _i538.EmployeeListCubit(gh<_i26.GetEmployeesUseCase>()),

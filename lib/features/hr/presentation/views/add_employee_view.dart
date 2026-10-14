@@ -8,12 +8,12 @@ import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/widgets/breadcrumb_header.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
+import '../../../../core/widgets/form_action_buttons.dart';
 import '../../../../core/widgets/success_dialog.dart';
 import '../../domain/entities/employee_entity.dart';
 import '../viewmodels/add_employee_cubit/add_employee_cubit.dart';
-import '../widgets/employee_form_actions.dart';
 import '../widgets/employee_form_fields.dart';
-import '../widgets/profile_image_picker.dart';
+import '../../../../core/widgets/profile_image_picker.dart';
 
 /// "HR > Employees > Adding New Employee".
 /// Pops with `true` once the employee has been created.
@@ -174,7 +174,7 @@ class _AddEmployeeViewState extends State<AddEmployeeView> {
                                   padding: const EdgeInsets.symmetric(
                                     vertical: AppPadding.p24,
                                   ),
-                                  child: EmployeeFormActions(
+                                  child: FormActionButtons(
                                     onDiscard: () =>
                                         Navigator.of(context).pop(),
                                     onSubmit: _onSubmit,

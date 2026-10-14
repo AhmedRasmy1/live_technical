@@ -5,7 +5,7 @@ import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/widgets/app_action_button.dart';
-import 'employee_search_bar.dart';
+import '../../../../core/widgets/app_search_field.dart';
 
 /// Search field + Filter button + Employee (active) button.
 /// Buttons collapse to icon-only on compact screens.
@@ -26,7 +26,7 @@ class EmployeeActionBar extends StatelessWidget {
     final showLabels = context.screenWidth >= AppConstants.compactBreakpoint;
     return Row(
       children: [
-        Expanded(child: EmployeeSearchBar(onChanged: onSearchChanged)),
+        Expanded(child: AppSearchField(onChanged: onSearchChanged)),
         const SizedBox(width: AppPadding.p16),
         AppActionButton(
           label: 'Filter',

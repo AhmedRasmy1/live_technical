@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
-import '../../../../core/resources/styles_manager.dart';
-import '../../../../core/widgets/app_action_button.dart';
+import '../resources/app_constants.dart';
+import '../resources/app_padding.dart';
+import '../resources/color_manager.dart';
+import '../resources/styles_manager.dart';
+import 'app_action_button.dart';
 
-/// Centered message for the empty / error state of the employee list.
-class EmployeeListMessage extends StatelessWidget {
-  const EmployeeListMessage({super.key, required this.message, this.onRetry});
+/// Centered message for empty / error states, with an optional Retry button.
+class StatusMessage extends StatelessWidget {
+  const StatusMessage({super.key, required this.message, this.onRetry});
 
   final String message;
   final VoidCallback? onRetry;

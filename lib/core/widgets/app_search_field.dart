@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/resources/app_constants.dart';
-import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
-import '../../../../core/resources/styles_manager.dart';
+import '../resources/app_constants.dart';
+import '../resources/app_padding.dart';
+import '../resources/color_manager.dart';
+import '../resources/styles_manager.dart';
 
-class EmployeeSearchBar extends StatelessWidget {
-  const EmployeeSearchBar({super.key, this.onChanged});
+/// Rounded search field with a search icon.
+class AppSearchField extends StatelessWidget {
+  const AppSearchField({
+    super.key,
+    this.onChanged,
+    this.hint = 'Search',
+    this.fillColor = ColorManager.white,
+  });
 
   final ValueChanged<String>? onChanged;
+  final String hint;
+  final Color fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +24,7 @@ class EmployeeSearchBar extends StatelessWidget {
       height: AppConstants.buttonHeight,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: ColorManager.white,
+        color: fillColor,
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       child: TextField(
@@ -28,7 +36,7 @@ class EmployeeSearchBar extends StatelessWidget {
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
-          hintText: 'Search',
+          hintText: hint,
           hintStyle: getRegularStyle(
             fontSize: AppConstants.captionSize,
             color: ColorManager.textGrey,
