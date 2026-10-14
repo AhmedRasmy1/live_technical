@@ -60,7 +60,7 @@ void main() {
     await tester.enterText(fields.at(1), 'M');
     await tester.enterText(fields.at(2), 'Handousa');
     await tester.enterText(fields.at(3), 'Manager');
-    await tester.tap(find.text('Select'));
+    await tester.tap(find.byType(DropdownButtonFormField<String>));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Marketing').last);
     await tester.pumpAndSettle();

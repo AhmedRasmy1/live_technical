@@ -6,7 +6,8 @@ import '../resources/color_manager.dart';
 import '../resources/styles_manager.dart';
 
 /// Shared decoration: white fill, no heavy border, red border on error.
-InputDecoration appInputDecoration({required String hint}) {
+/// Pass [hint] for text fields. Dropdowns draw their own hint widget instead.
+InputDecoration appInputDecoration({String? hint}) {
   OutlineInputBorder border(Color? color) => OutlineInputBorder(
     borderRadius: BorderRadius.circular(AppConstants.borderRadius),
     borderSide: color == null

@@ -47,6 +47,8 @@ class _EmployeeViewState extends State<EmployeeView> {
   }
 
   void _openFilter() {
+    final jobTitles = employeeListCubit.jobTitles;
+    final selectedJobTitle = employeeListCubit.selectedJobTitle;
     showDialog<void>(
       context: context,
       builder: (dialogContext) => Dialog(
@@ -61,11 +63,23 @@ class _EmployeeViewState extends State<EmployeeView> {
           ),
           child: SingleChildScrollView(
             child: FilterPanelWidget(
-              jobTitles: HrOptions.jobTitles,
+              jobTitles: jobTitles,
               departments: HrOptions.departments,
-              onApply: (jobTitle, department) =>
-                  Navigator.of(dialogContext).pop(),
-              onReset: () => Navigator.of(dialogContext).pop(),
+              initialJobTitle: jobTitles.contains(selectedJobTitle)
+                  ? selectedJobTitle
+                  : null,
+              initialDepartment: employeeListCubit.selectedDepartment,
+              onApply: (jobTitle, department) {
+                employeeListCubit.applyFilter(
+                  department: department,
+                  jobTitle: jobTitle,
+                );
+                Navigator.of(dialogContext).pop();
+              },
+              onReset: () {
+                employeeListCubit.resetFilter();
+                Navigator.of(dialogContext).pop();
+              },
             ),
           ),
         ),
@@ -93,7 +107,7 @@ class _EmployeeViewState extends State<EmployeeView> {
         if (state.employees.isEmpty) {
           return const SliverFillRemaining(
             hasScrollBody: false,
-            child: EmployeeListMessage(message: 'No employees yet'),
+            child: EmployeeListMessage(message: 'No employees found'),
           );
         }
         return EmployeeSliverGrid(employees: state.employees);
@@ -125,6 +139,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                       padding: const EdgeInsets.only(bottom: AppPadding.p16),
                       child: EmployeeActionBar(
                         onFilterPressed: _openFilter,
+                        onSearchChanged: employeeListCubit.searchEmployees,
                         onEmployeePressed: _openAddEmployee,
                       ),
                     ),

@@ -51,7 +51,7 @@ class AppDropdownFormField extends StatelessWidget {
             fontSize: AppConstants.captionSize,
             color: ColorManager.black,
           ),
-          decoration: appInputDecoration(hint: hint),
+          decoration: appInputDecoration(),
           hint: Text(
             hint,
             style: getRegularStyle(
