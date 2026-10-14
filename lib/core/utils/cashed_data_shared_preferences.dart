@@ -17,8 +17,9 @@ class CacheService {
     if (value is int) return _sharedPreferences.setInt(key, value);
     if (value is bool) return _sharedPreferences.setBool(key, value);
     if (value is double) return _sharedPreferences.setDouble(key, value);
-    if (value is List<String>)
+    if (value is List<String>) {
       return _sharedPreferences.setStringList(key, value);
+    }
     return false;
   }
 

@@ -34,7 +34,12 @@ class MyBlocObserver implements BlocObserver {
   }
 
   @override
-  void onDone(Bloc bloc, Object? event, [Object? error, StackTrace? stackTrace]) {
+  void onDone(
+    Bloc bloc,
+    Object? event, [
+    Object? error,
+    StackTrace? stackTrace,
+  ]) {
     log('onDone -- ${bloc.runtimeType}, $event');
   }
 }

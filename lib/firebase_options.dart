@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -56,7 +53,6 @@ class DefaultFirebaseOptions {
     projectId: 'live-technical-assees',
     storageBucket: 'live-technical-assees.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyARxw28PodJBUiWkCFv5CAgyDLLqAVa8hs',
     appId: '1:501169246039:ios:fa1bb831ce49a4d68ff812',
@@ -64,5 +60,14 @@ class DefaultFirebaseOptions {
     projectId: 'live-technical-assees',
     storageBucket: 'live-technical-assees.firebasestorage.app',
     iosBundleId: 'com.example.liveTechnical',
+  );
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDwreJgHkwItDfVjMUh0PVUbHLYaNI2dq0',
+    appId: '1:501169246039:web:177f1e2ec87d72478ff812',
+    messagingSenderId: '501169246039',
+    projectId: 'live-technical-assees',
+    authDomain: 'live-technical-assees.firebaseapp.com',
+    storageBucket: 'live-technical-assees.firebasestorage.app',
+    measurementId: 'G-Z6J3MSYSW7',
   );
 }
