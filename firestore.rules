@@ -13,6 +13,15 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
+    // DEMO ONLY: Database Builder (database + its `access` sub-collection).
+    match /databases/{databaseId} {
+      allow read, write: if true;
+
+      match /access/{employeeId} {
+        allow read, write: if true;
+      }
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

@@ -176,7 +176,7 @@ void main() {
     });
 
     test('a non-Firebase failure is returned as a Fail too', () async {
-      firestore.commitError = StateError('boom');
+      firestore.commitError = const FormatException('boom');
 
       final result = await dataSource.createDatabase(_entity(), ['e1']);
 
