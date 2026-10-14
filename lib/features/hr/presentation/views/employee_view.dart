@@ -1,18 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/di/di.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
+import '../../../../core/widgets/breadcrumb_header.dart';
+import '../viewmodels/employee_list_cubit/employee_list_cubit.dart';
 import '../widgets/employee_action_bar.dart';
 import '../widgets/employee_grid.dart';
-import '../widgets/employee_header.dart';
-import '../widgets/employee_mock.dart';
+import '../widgets/employee_list_message.dart';
 import '../widgets/filter_panel_widget.dart';
+import '../widgets/hr_options.dart';
+import 'add_employee_view.dart';
 
-class EmployeeView extends StatelessWidget {
+class EmployeeView extends StatefulWidget {
   const EmployeeView({super.key});
 
-  void _openFilter(BuildContext context) {
+  @override
+  State<EmployeeView> createState() => _EmployeeViewState();
+}
+
+class _EmployeeViewState extends State<EmployeeView> {
+  late EmployeeListCubit employeeListCubit;
+
+  @override
+  void initState() {
+    employeeListCubit = getIt.get<EmployeeListCubit>();
+    super.initState();
+    employeeListCubit.getEmployees();
+  }
+
+  @override
+  void dispose() {
+    employeeListCubit.close();
+    super.dispose();
+  }
+
+  Future<void> _openAddEmployee() async {
+    final added = await Navigator.of(
+      context,
+    ).push<bool>(MaterialPageRoute(builder: (_) => const AddEmployeeView()));
+    if (added == true) {
+      employeeListCubit.getEmployees();
+    }
+  }
+
+  void _openFilter() {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => Dialog(
@@ -27,8 +61,8 @@ class EmployeeView extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: FilterPanelWidget(
-              jobTitles: mockJobTitles,
-              departments: mockDepartments,
+              jobTitles: HrOptions.jobTitles,
+              departments: HrOptions.departments,
               onApply: (jobTitle, department) =>
                   Navigator.of(dialogContext).pop(),
               onReset: () => Navigator.of(dialogContext).pop(),
@@ -37,6 +71,33 @@ class EmployeeView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildEmployees(EmployeeListState state) {
+    switch (state) {
+      case EmployeeListInitial():
+      case EmployeeListLoading():
+        return const SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(child: CircularProgressIndicator()),
+        );
+      case EmployeeListFailure():
+        return SliverFillRemaining(
+          hasScrollBody: false,
+          child: EmployeeListMessage(
+            message: state.error,
+            onRetry: employeeListCubit.getEmployees,
+          ),
+        );
+      case EmployeeListSuccess():
+        if (state.employees.isEmpty) {
+          return const SliverFillRemaining(
+            hasScrollBody: false,
+            child: EmployeeListMessage(message: 'No employees yet'),
+          );
+        }
+        return EmployeeSliverGrid(employees: state.employees);
+    }
   }
 
   @override
@@ -56,18 +117,22 @@ class EmployeeView extends StatelessWidget {
                   const SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: AppPadding.p16),
-                      child: EmployeeHeader(),
+                      child: BreadcrumbHeader(items: ['HR', 'Employee']),
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: AppPadding.p16),
                       child: EmployeeActionBar(
-                        onFilterPressed: () => _openFilter(context),
+                        onFilterPressed: _openFilter,
+                        onEmployeePressed: _openAddEmployee,
                       ),
                     ),
                   ),
-                  const EmployeeSliverGrid(employees: mockEmployees),
+                  BlocBuilder<EmployeeListCubit, EmployeeListState>(
+                    bloc: employeeListCubit,
+                    builder: (context, state) => _buildEmployees(state),
+                  ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: AppPadding.p24),
                   ),

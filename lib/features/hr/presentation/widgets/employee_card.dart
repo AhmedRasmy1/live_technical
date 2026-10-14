@@ -5,7 +5,7 @@ import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/widgets/app_action_button.dart';
-import 'employee_mock.dart';
+import '../../domain/entities/employee_entity.dart';
 
 class EmployeeCard extends StatelessWidget {
   const EmployeeCard({
@@ -14,11 +14,14 @@ class EmployeeCard extends StatelessWidget {
     this.onMessagePressed,
   });
 
-  final EmployeeMock employee;
+  final EmployeeEntity employee;
   final VoidCallback? onMessagePressed;
 
   @override
   Widget build(BuildContext context) {
+    final imageUrl = employee.imageUrl;
+    final hasImage = imageUrl != null && imageUrl.isNotEmpty;
+
     return Container(
       padding: const EdgeInsets.all(AppPadding.p12),
       decoration: BoxDecoration(
@@ -29,16 +32,19 @@ class EmployeeCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: CircleAvatar(
                 radius: AppConstants.avatarRadius,
                 backgroundColor: ColorManager.fieldFill,
-                child: Icon(
-                  Icons.person,
-                  size: AppConstants.iconSize,
-                  color: ColorManager.grey,
-                ),
+                backgroundImage: hasImage ? NetworkImage(imageUrl) : null,
+                child: hasImage
+                    ? null
+                    : const Icon(
+                        Icons.person,
+                        size: AppConstants.iconSize,
+                        color: ColorManager.grey,
+                      ),
               ),
             ),
             const SizedBox(width: AppPadding.p12),
@@ -48,7 +54,7 @@ class EmployeeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    employee.name,
+                    employee.fullName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: getMediumStyle(

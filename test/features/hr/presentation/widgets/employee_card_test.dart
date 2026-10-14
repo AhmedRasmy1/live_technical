@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:live_technical/features/hr/domain/entities/employee_entity.dart';
 import 'package:live_technical/features/hr/presentation/widgets/employee_card.dart';
-import 'package:live_technical/features/hr/presentation/widgets/employee_mock.dart';
 
 void main() {
-  const employee = EmployeeMock(
-    name: 'Amro Handousa',
+  const employee = EmployeeEntity(
+    id: '1',
+    firstName: 'Amro',
+    middleName: 'Ali',
+    lastName: 'Handousa',
     jobTitle: 'Marketing Manger',
     department: 'Marketing',
   );
@@ -21,12 +24,12 @@ void main() {
     ),
   );
 
-  testWidgets('shows name, job title, department and message button', (
+  testWidgets('shows full name, job title, department and message button', (
     tester,
   ) async {
     await tester.pumpWidget(buildCard());
 
-    expect(find.text('Amro Handousa'), findsOneWidget);
+    expect(find.text('Amro Ali Handousa'), findsOneWidget);
     expect(find.text('Marketing Manger'), findsOneWidget);
     expect(find.text('Marketing'), findsOneWidget);
     expect(find.text('Message'), findsOneWidget);

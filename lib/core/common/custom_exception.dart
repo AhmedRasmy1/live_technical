@@ -17,3 +17,9 @@ class FirebaseAuthError implements Exception {
   String? message;
   FirebaseAuthError(this.message);
 }
+
+/// Error coming from Cloud Firestore (permission denied, unavailable, ...).
+class FirestoreError implements Exception {
+  String? message;
+  FirestoreError(this.message);
+}

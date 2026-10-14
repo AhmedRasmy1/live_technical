@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/resources/app_constants.dart';
+import '../../domain/entities/employee_entity.dart';
 import 'employee_card.dart';
-import 'employee_mock.dart';
 
 /// Sliver grid that adapts to 1 / 2 / 3 columns depending on available width.
 class EmployeeSliverGrid extends StatelessWidget {
   const EmployeeSliverGrid({super.key, required this.employees});
 
-  final List<EmployeeMock> employees;
+  final List<EmployeeEntity> employees;
 
   @override
   Widget build(BuildContext context) {

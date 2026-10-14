@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // DEMO ONLY: the app has no authentication yet, so this collection is open.
+    // Replace with `request.auth != null` once login is added.
+    match /employees/{employeeId} {
+      allow read, write: if true;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

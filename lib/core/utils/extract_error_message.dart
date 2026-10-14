@@ -10,6 +10,8 @@ String extractErrorMessage(Exception? ex) {
       return ex.exception?.message ?? 'something went wrong';
     case FirebaseAuthError():
       return ex.message ?? 'something went wrong';
+    case FirestoreError():
+      return ex.message ?? 'something went wrong';
     default:
       return 'something went wrong';
   }
