@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:live_technical/core/common/custom_exception.dart';
+import 'package:live_technical/features/database_builder/domain/entities/database_entity.dart';
 import 'package:live_technical/features/database_builder/domain/entities/database_enums.dart';
 import 'package:live_technical/features/database_builder/presentation/viewmodels/database_list_cubit/database_list_cubit.dart';
 
@@ -277,6 +278,72 @@ void main() {
       cubit.sortBy(DatabaseSort.lastUpdate);
 
       expect(cubit.data.databases.first.title, 'Alpha');
+    });
+  });
+
+  group('access type filter', () {
+    // Every sample database is restricted except these overrides.
+    setUp(() async {
+      repo.databases
+        ..clear()
+        ..addAll([
+          databaseOf('Open1', created: DateTime(2024, 1, 1)),
+          DatabaseEntity(
+            id: 'p1',
+            title: 'Personal1',
+            accessType: AccessType.personal,
+            status: DatabaseStatus.personal,
+            creationDate: DateTime(2024, 1, 2),
+          ),
+          DatabaseEntity(
+            id: 'p2',
+            title: 'Personal2',
+            accessType: AccessType.personal,
+            status: DatabaseStatus.draft,
+            creationDate: DateTime(2024, 1, 3),
+          ),
+        ]);
+      await cubit.getDatabases();
+    });
+
+    test('shows only the chosen access type', () {
+      cubit.filterByAccessType(AccessType.personal);
+
+      expect(titles(), unorderedEquals(['Personal1', 'Personal2']));
+      expect(cubit.state, isA<DatabaseListSuccess>());
+    });
+
+    test('null clears the filter', () {
+      cubit.filterByAccessType(AccessType.personal);
+      cubit.filterByAccessType(null);
+
+      expect(cubit.data.accessFilter, isNull);
+      expect(titles(), hasLength(3));
+    });
+
+    test('works together with the tab and the search', () {
+      cubit.filterByAccessType(AccessType.personal);
+      cubit.selectTab(DatabaseTab.drafts);
+      expect(titles(), ['Personal2']);
+
+      cubit.selectTab(DatabaseTab.all);
+      cubit.searchDatabases('1');
+      expect(titles(), ['Personal1']);
+    });
+
+    test('does not change the tab counters', () {
+      cubit.filterByAccessType(AccessType.personal);
+
+      expect(cubit.data.counts[DatabaseTab.all], 3);
+    });
+
+    test('stays after a refresh', () async {
+      cubit.filterByAccessType(AccessType.open);
+
+      await cubit.getDatabases();
+
+      expect(cubit.data.accessFilter, AccessType.open);
+      expect(titles(), isEmpty); // databaseOf() builds restricted databases
     });
   });
 

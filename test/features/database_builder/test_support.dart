@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:live_technical/core/common/api_result.dart';
+import 'package:live_technical/core/di/di.dart';
 import 'package:live_technical/features/database_builder/domain/entities/database_entity.dart';
 import 'package:live_technical/features/database_builder/domain/entities/database_enums.dart';
 import 'package:live_technical/features/database_builder/domain/repo/database_repo.dart';
@@ -25,6 +26,9 @@ class FakeDatabaseRepo implements DatabaseRepo {
   /// When set, `createDatabase` waits for it (to observe the loading state).
   Completer<void>? createGate;
 
+  /// When set, `getDatabases` waits for it (to observe the loading state).
+  Completer<void>? getGate;
+
   int getCalls = 0;
   int createCalls = 0;
   DatabaseEntity? lastDatabase;
@@ -33,6 +37,7 @@ class FakeDatabaseRepo implements DatabaseRepo {
   @override
   Future<Result<List<DatabaseEntity>>> getDatabases() async {
     getCalls++;
+    if (getGate != null) await getGate!.future;
     final error = getError;
     if (error != null) return Fail(error);
     return Success(List.of(databases));
@@ -132,6 +137,11 @@ List<DatabaseEntity> sampleDatabases() => [
 DatabaseListCubit buildDatabaseListCubit(FakeDatabaseRepo repo) =>
     DatabaseListCubit(GetDatabasesUseCase(repo));
 
+/// Registers the dashboard cubit on the shared `getIt` with a fake repo.
+void registerDatabaseListDependencies(FakeDatabaseRepo repo) {
+  getIt.registerFactory<DatabaseListCubit>(() => buildDatabaseListCubit(repo));
+}
+
 /// 4 employees: 2 Marketing, 1 HR, 1 Design.
 List<EmployeeEntity> wizardEmployees() => [
   const EmployeeEntity(
@@ -171,3 +181,13 @@ CreateDatabaseCubit buildCreateDatabaseCubit(
   GetEmployeesUseCase(employeeRepo),
   CreateDatabaseUseCase(databaseRepo),
 );
+
+/// Registers the wizard cubit on the shared `getIt` with fake repos.
+void registerCreateDatabaseDependencies(
+  FakeDatabaseRepo databaseRepo,
+  FakeEmployeeRepo employeeRepo,
+) {
+  getIt.registerFactory<CreateDatabaseCubit>(
+    () => buildCreateDatabaseCubit(databaseRepo, employeeRepo),
+  );
+}

@@ -15,8 +15,8 @@ import 'package:live_technical/core/widgets/warning_dialog.dart';
 import 'package:live_technical/features/task_management/domain/entities/board_entity.dart';
 import 'package:live_technical/features/task_management/presentation/views/create_board_view.dart';
 import 'package:live_technical/features/task_management/presentation/widgets/department_chips.dart';
-import 'package:live_technical/features/task_management/presentation/widgets/selectable_employee_card.dart';
-import 'package:live_technical/features/task_management/presentation/widgets/selected_employee_avatars.dart';
+import 'package:live_technical/features/hr/presentation/widgets/selectable_employee_card.dart';
+import 'package:live_technical/features/hr/presentation/widgets/selected_employee_avatars.dart';
 
 import '../../test_support.dart';
 

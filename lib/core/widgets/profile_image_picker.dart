@@ -6,15 +6,20 @@ import '../resources/app_constants.dart';
 /// Circular grey placeholder with an image icon and a camera badge.
 /// Image upload is not wired yet (imageUrl is optional).
 class ProfileImagePicker extends StatelessWidget {
-  const ProfileImagePicker({super.key, this.onTap});
+  const ProfileImagePicker({
+    super.key,
+    this.onTap,
+    this.semanticLabel = 'Choose employee image',
+  });
 
   final VoidCallback? onTap;
+  final String semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Choose employee image',
+      label: semanticLabel,
       child: InkWell(
         onTap: onTap,
         customBorder: const CircleBorder(),

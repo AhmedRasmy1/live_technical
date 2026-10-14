@@ -16,6 +16,7 @@ class AppDropdownFormField extends StatelessWidget {
     this.hint = 'Select',
     this.validator,
     this.fillColor,
+    this.value,
   });
 
   final String label;
@@ -24,6 +25,10 @@ class AppDropdownFormField extends StatelessWidget {
   final String hint;
   final FormFieldValidator<String>? validator;
   final Color? fillColor;
+
+  /// Currently selected item, so the field can be restored (e.g. when going
+  /// back a step in a wizard).
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class AppDropdownFormField extends StatelessWidget {
         const SizedBox(height: AppPadding.p4),
         DropdownButtonFormField<String>(
           isExpanded: true,
+          initialValue: value,
           validator: validator,
           onChanged: onChanged,
           borderRadius: BorderRadius.circular(AppConstants.borderRadius),

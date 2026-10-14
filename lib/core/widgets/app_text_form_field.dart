@@ -23,6 +23,7 @@ class AppTextFormField extends StatelessWidget {
     this.maxLength,
     this.textDirection,
     this.fillColor,
+    this.onChanged,
   });
 
   final String label;
@@ -36,6 +37,7 @@ class AppTextFormField extends StatelessWidget {
   final int? maxLength;
   final TextDirection? textDirection;
   final Color? fillColor;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class AppTextFormField extends StatelessWidget {
         TextFormField(
           controller: controller,
           validator: validator,
+          onChanged: onChanged,
           keyboardType:
               keyboardType ?? (isMultiline ? TextInputType.multiline : null),
           textInputAction: isMultiline

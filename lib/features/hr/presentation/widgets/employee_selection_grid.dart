@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/resources/app_constants.dart';
-import '../../../hr/domain/entities/employee_entity.dart';
+import '../../../../core/resources/color_manager.dart';
+import '../../domain/entities/employee_entity.dart';
 import 'selectable_employee_card.dart';
 
 /// Responsive 1 / 2 / 3 column grid of selectable employees.
@@ -12,11 +13,13 @@ class EmployeeSelectionGrid extends StatelessWidget {
     required this.employees,
     required this.selectedIds,
     required this.onToggle,
+    this.activeColor = ColorManager.accent,
   });
 
   final List<EmployeeEntity> employees;
   final List<String> selectedIds;
   final ValueChanged<String> onToggle;
+  final Color activeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,7 @@ class EmployeeSelectionGrid extends StatelessWidget {
           employee: employee,
           selected: selectedIds.contains(id),
           onChanged: () => onToggle(id),
+          activeColor: activeColor,
         );
       },
     );

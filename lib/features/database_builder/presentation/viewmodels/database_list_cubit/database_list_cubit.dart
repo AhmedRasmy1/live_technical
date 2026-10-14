@@ -43,6 +43,17 @@ class DatabaseListCubit extends Cubit<DatabaseListState> {
     emit(DatabaseListSuccess(data.copyWith(query: query.trim())));
   }
 
+  /// `null` removes the filter.
+  void filterByAccessType(AccessType? accessType) {
+    emit(
+      DatabaseListSuccess(
+        accessType == null
+            ? data.copyWith(clearAccessFilter: true)
+            : data.copyWith(accessFilter: accessType),
+      ),
+    );
+  }
+
   void sortBy(DatabaseSort sort) {
     emit(DatabaseListSuccess(data.copyWith(sort: sort)));
   }

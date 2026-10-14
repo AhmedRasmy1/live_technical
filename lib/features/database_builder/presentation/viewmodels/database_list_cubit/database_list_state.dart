@@ -39,25 +39,32 @@ class DatabaseListData {
   final String query;
   final DatabaseSort sort;
 
+  /// `null` shows every access type.
+  final AccessType? accessFilter;
+
   const DatabaseListData({
     this.databases = const [],
     this.tab = DatabaseTab.all,
     this.query = '',
     this.sort = DatabaseSort.creationDate,
+    this.accessFilter,
   });
 
-  /// Live counter of every tab. Not affected by the search text.
+  /// Live counter of every tab. Not affected by the search text or filter.
   Map<DatabaseTab, int> get counts => {
     for (final tab in DatabaseTab.values)
       tab: databases.where(tab.matches).length,
   };
 
-  /// Databases of the selected tab whose title contains the search text,
-  /// sorted by [sort].
+  /// Databases of the selected tab (and access filter) whose title contains
+  /// the search text, sorted by [sort].
   List<DatabaseEntity> get visibleDatabases {
     final text = query.toLowerCase();
     final result = databases.where((database) {
       if (!tab.matches(database)) return false;
+      if (accessFilter != null && database.accessType != accessFilter) {
+        return false;
+      }
       if (text.isEmpty) return true;
       return database.title.toLowerCase().contains(text) ||
           database.titleAr.toLowerCase().contains(text);
@@ -85,11 +92,16 @@ class DatabaseListData {
     DatabaseTab? tab,
     String? query,
     DatabaseSort? sort,
+    AccessType? accessFilter,
+    bool clearAccessFilter = false,
   }) => DatabaseListData(
     databases: databases ?? this.databases,
     tab: tab ?? this.tab,
     query: query ?? this.query,
     sort: sort ?? this.sort,
+    accessFilter: clearAccessFilter
+        ? null
+        : (accessFilter ?? this.accessFilter),
   );
 }
 

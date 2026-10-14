@@ -5,25 +5,26 @@ import '../../../../core/di/di.dart';
 import '../../../../core/extensions/theme_helper.dart';
 import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
-import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
+import '../../../../core/widgets/bilingual_info_fields.dart';
 import '../../../../core/widgets/breadcrumb_header.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
+import '../../../../core/widgets/error_snack_bar.dart';
 import '../../../../core/widgets/form_action_buttons.dart';
+import '../../../../core/widgets/loading_overlay.dart';
 import '../../../../core/widgets/profile_image_picker.dart';
 import '../../../../core/widgets/responsive_field_wrap.dart';
 import '../../../../core/widgets/status_message.dart';
 import '../../../../core/widgets/success_dialog.dart';
 import '../../../../core/widgets/warning_dialog.dart';
+import '../../../hr/presentation/widgets/employee_picker_filters.dart';
+import '../../../hr/presentation/widgets/employee_selection_grid.dart';
+import '../../../hr/presentation/widgets/selected_employee_avatars.dart';
 import '../viewmodels/create_board_cubit/create_board_cubit.dart';
-import '../widgets/board_info_fields.dart';
 import '../widgets/board_options.dart';
 import '../widgets/department_chips.dart';
 import '../widgets/department_multi_select.dart';
-import '../widgets/employee_picker_filters.dart';
-import '../widgets/employee_selection_grid.dart';
 import '../widgets/messaging_toggle_row.dart';
-import '../widgets/selected_employee_avatars.dart';
 
 /// "Task Management > Creating New Board".
 /// Pops with `true` once the board has been created.
@@ -82,7 +83,7 @@ class _CreateBoardViewState extends State<CreateBoardView> {
         }
       case CreateBoardFailure():
         if (state.operation != BoardOperation.loadEmployees) {
-          _showError(state.error);
+          showErrorSnackBar(context, state.error);
         }
       case CreateBoardInitial():
       case CreateBoardLoading():
@@ -128,21 +129,6 @@ class _CreateBoardViewState extends State<CreateBoardView> {
     );
     if (!mounted) return;
     Navigator.of(context).pop(true);
-  }
-
-  void _showError(String error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: ColorManager.error,
-        content: Text(
-          error,
-          style: getRegularStyle(
-            fontSize: AppConstants.bodySize,
-            color: ColorManager.white,
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildEmployees(CreateBoardState state) {
@@ -194,12 +180,14 @@ class _CreateBoardViewState extends State<CreateBoardView> {
         children: [
           const ProfileImagePicker(),
           gap,
-          BoardInfoFields(
-            boardNameController: _boardNameController,
-            boardNameArController: _boardNameArController,
+          BilingualInfoFields(
+            titleLabel: 'Board Name',
+            titleArLabel: 'اسم لوحة',
+            titleController: _boardNameController,
+            titleArController: _boardNameArController,
             descriptionController: _descriptionController,
             descriptionArController: _descriptionArController,
-            boardNameValidator: createBoardCubit.validateBoardName,
+            titleValidator: createBoardCubit.validateBoardName,
           ),
           gap,
           ResponsiveFieldWrap(
@@ -314,17 +302,7 @@ class _CreateBoardViewState extends State<CreateBoardView> {
                     ),
                   ),
                 ),
-                if (isBusy)
-                  const Positioned.fill(
-                    child: ColoredBox(
-                      color: ColorManager.overlay,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: ColorManager.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                if (isBusy) const LoadingOverlay(),
               ],
             );
           },

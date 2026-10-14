@@ -38,6 +38,18 @@ class AppConstants {
   static const double dialogIconSize = 64;
   static const Duration successDialogDuration = Duration(milliseconds: 1500);
 
+  // Database Builder
+  static const double databaseCardMinWidth = 280;
+  static const double databaseCardHeight = 120;
+  static const double databaseTileSize = 64;
+  static const double tabCountSize = 40;
+  static const double tabSpacing = 24;
+
+  // Date pickers
+  static const int datePickerFirstYear = 2000;
+  static const int datePickerLastYear = 2100;
+  static const double removeButtonSize = 36;
+
   // Elevation
   static const double buttonElevation = 1;
 }

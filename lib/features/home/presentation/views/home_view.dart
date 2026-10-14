@@ -5,6 +5,7 @@ import '../../../../core/resources/app_constants.dart';
 import '../../../../core/resources/app_padding.dart';
 import '../../../../core/widgets/app_action_button.dart';
 import '../../../../core/widgets/theme_toggle_button.dart';
+import '../../../database_builder/presentation/views/database_list_view.dart';
 import '../../../hr/presentation/views/employee_view.dart';
 import '../../../task_management/presentation/views/create_board_view.dart';
 
@@ -54,6 +55,14 @@ class HomeView extends StatelessWidget {
                         height: AppConstants.buttonHeight,
                         onPressed: () =>
                             _open(context, const CreateBoardView()),
+                      ),
+                      const SizedBox(height: AppConstants.fieldSpacing),
+                      AppActionButton(
+                        label: 'Database Builder',
+                        icon: Icons.storage_outlined,
+                        height: AppConstants.buttonHeight,
+                        onPressed: () =>
+                            _open(context, const DatabaseListView()),
                       ),
                     ],
                   ),

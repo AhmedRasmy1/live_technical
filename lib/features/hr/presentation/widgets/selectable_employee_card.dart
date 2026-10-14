@@ -6,7 +6,7 @@ import '../../../../core/resources/app_padding.dart';
 import '../../../../core/resources/color_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 import '../../../../core/widgets/app_avatar.dart';
-import '../../../hr/domain/entities/employee_entity.dart';
+import '../../domain/entities/employee_entity.dart';
 
 /// Employee card with a checkbox on the right (yellow when selected).
 class SelectableEmployeeCard extends StatelessWidget {
@@ -15,11 +15,15 @@ class SelectableEmployeeCard extends StatelessWidget {
     required this.employee,
     required this.selected,
     required this.onChanged,
+    this.activeColor = ColorManager.accent,
   });
 
   final EmployeeEntity employee;
   final bool selected;
   final VoidCallback onChanged;
+
+  /// Fill of the checked checkbox.
+  final Color activeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,7 @@ class SelectableEmployeeCard extends StatelessWidget {
               Checkbox(
                 value: selected,
                 onChanged: (_) => onChanged(),
-                activeColor: ColorManager.accent,
+                activeColor: activeColor,
                 checkColor: ColorManager.white,
                 side: BorderSide(color: context.colors.grey),
                 shape: RoundedRectangleBorder(
